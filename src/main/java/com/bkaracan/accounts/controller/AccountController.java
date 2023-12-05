@@ -1,13 +1,23 @@
 package com.bkaracan.accounts.controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.bkaracan.accounts.constant.AccountConstant;
+import com.bkaracan.accounts.dto.CustomerDto;
+import com.bkaracan.accounts.dto.response.ResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("api/v1/accounts")
+@RestController
+@RequestMapping(path = "/api,", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class AccountController {
 
-    @GetMapping("/helloWorld")
-    public String helloWorld() {
+    @PostMapping("/create")
+    public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customerDto) {
 
-        return "Hello world, this is account controller.";
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseDto(AccountConstant.STATUS_201, AccountConstant.MESSAGE_201));
     }
 }
