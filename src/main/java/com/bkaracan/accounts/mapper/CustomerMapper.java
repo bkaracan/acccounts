@@ -8,7 +8,7 @@ public class CustomerMapper {
     public static CustomerDto convertToDto(Customer customer, CustomerDto customerDto) {
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());
-        customerDto.setMobileNumber(customerDto.getMobileNumber());
+        customerDto.setMobileNumber(customer.getMobileNumber());
         return customerDto;
     }
 

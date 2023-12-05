@@ -1,10 +1,13 @@
 package com.bkaracan.accounts.service.impl;
 
 import com.bkaracan.accounts.constant.AccountConstant;
+import com.bkaracan.accounts.dto.AccountDto;
 import com.bkaracan.accounts.dto.CustomerDto;
 import com.bkaracan.accounts.entity.Account;
 import com.bkaracan.accounts.entity.Customer;
 import com.bkaracan.accounts.exception.CustomerAlreadyExistsException;
+import com.bkaracan.accounts.exception.ResourceNotFoundException;
+import com.bkaracan.accounts.mapper.AccountsMapper;
 import com.bkaracan.accounts.mapper.CustomerMapper;
 import com.bkaracan.accounts.repository.AccountRepository;
 import com.bkaracan.accounts.repository.CustomerRepository;
@@ -34,6 +37,19 @@ public class AccountServiceImpl implements AccountService {
 
         Customer savedCustomer = customerRepository.save(customer);
         accountRepository.save(createNewAccount(savedCustomer));
+    }
+
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+        );
+        Account account = accountRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
+        );
+        CustomerDto customerDto = CustomerMapper.convertToDto(customer, new CustomerDto());
+        customerDto.setAccountDto(AccountsMapper.convertToDto(account, new AccountDto()));
+        return customerDto;
     }
 
     private Account createNewAccount(Customer customer) {
