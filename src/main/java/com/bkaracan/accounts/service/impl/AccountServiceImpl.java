@@ -1,7 +1,6 @@
 package com.bkaracan.accounts.service.impl;
 
 import com.bkaracan.accounts.constant.AccountConstant;
-import com.bkaracan.accounts.dto.AccountDto;
 import com.bkaracan.accounts.dto.CustomerDto;
 import com.bkaracan.accounts.entity.Account;
 import com.bkaracan.accounts.entity.Customer;
@@ -10,6 +9,7 @@ import com.bkaracan.accounts.mapper.CustomerMapper;
 import com.bkaracan.accounts.repository.AccountRepository;
 import com.bkaracan.accounts.repository.CustomerRepository;
 import com.bkaracan.accounts.service.AccountService;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 import lombok.AllArgsConstructor;
@@ -44,6 +44,7 @@ public class AccountServiceImpl implements AccountService {
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(AccountConstant.SAVINGS);
         newAccount.setBranchAddress(AccountConstant.ADDRESS);
+        newAccount.setCreatedAt(LocalDateTime.now());
         return newAccount;
     }
 }
