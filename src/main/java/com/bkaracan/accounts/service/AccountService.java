@@ -1,8 +1,8 @@
 package com.bkaracan.accounts.service;
 
-import com.bkaracan.accounts.dto.AccountDto;
+import com.bkaracan.accounts.dto.CustomerDto;
 
 public interface AccountService {
 
-    void createAccount(AccountDto accountDto);
+    void createAccount(CustomerDto customerDto);
 }
