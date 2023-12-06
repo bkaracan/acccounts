@@ -118,8 +118,8 @@ public class AccountController {
                     .body(new ResponseDto(AccountConstant.STATUS_200, AccountConstant.MESSAGE_200));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto(AccountConstant.STATUS_500, AccountConstant.MESSAGE_500));
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountConstant.STATUS_417, AccountConstant.MESSAGE_417_UPDATE));
         }
     }
 
@@ -154,8 +154,8 @@ public class AccountController {
                     .body(new ResponseDto(AccountConstant.STATUS_200, AccountConstant.MESSAGE_200));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto(AccountConstant.STATUS_500, AccountConstant.MESSAGE_500));
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountConstant.STATUS_417, AccountConstant.MESSAGE_417_DELETE));
         }
     }
 }
