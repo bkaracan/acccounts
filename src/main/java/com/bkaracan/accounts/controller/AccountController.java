@@ -1,6 +1,7 @@
 package com.bkaracan.accounts.controller;
 
 import com.bkaracan.accounts.constant.AccountConstant;
+import com.bkaracan.accounts.dto.AccountContactInfoDto;
 import com.bkaracan.accounts.dto.CustomerDto;
 import com.bkaracan.accounts.dto.response.ErrorResponseDto;
 import com.bkaracan.accounts.dto.response.ResponseDto;
@@ -13,7 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -36,18 +37,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
+@RequiredArgsConstructor
 public class AccountController {
 
     private final AccountService accountService;
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     @Value("${build.version}")
     private String buildVersion;
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
+
+    private final AccountContactInfoDto accountContactInfoDto;
 
     @Operation(
             summary = "Create Account REST API",
@@ -213,4 +213,30 @@ public class AccountController {
                 .status(HttpStatus.OK)
                 .body(environment.getProperty("JAVA_HOME"));
     }
+
+    @Operation(
+            summary = "Get Contact Info",
+            description = "Contact Info details that can be reached out in case of any issues"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountContactInfoDto> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountContactInfoDto);
+    }
+
 }
